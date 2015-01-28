@@ -1,0 +1,37 @@
+---
+
+- name: Ensure download directory exists
+  file: path={{ influxdb_download_dir }} state=directory mode=0755
+  tags:
+    - influxdb
+
+- name: Download release
+  get_url: url="{{ influxdb_release_url }}" dest="{{ influxdb_download_dir }}/{{ influxdb_release_basename }}"
+  tags:
+    - influxdb
+
+- name: Install release
+  apt: deb="{{ influxdb_download_dir }}/{{ influxdb_release_basename }}" state=installed
+  tags:
+    - influxdb
+
+- name: Ensure data directory exists
+  file: path={{ influxdb_data_dir }} state=directory owner={{ influxdb_user }} group={{ influxdb_group }} mode=0755
+  tags:
+    - influxdb
+
+- name: Ensure log directory exists
+  file: path={{ influxdb_log_dir }} state=directory owner={{ influxdb_user }} group={{ influxdb_group }} mode=0755
+  tags:
+    - influxdb
+
+- name: Update configuration file
+  template: src=influxdb.toml.j2 dest={{ influxdb_conf_dir }}/config.toml owner=root group=root mode=0644
+  notify:
+    - restart influxdb
+  tags:
+    - influxdb
+
+- include: logstash.yml
+  when: influxdb_use_logstash
+  

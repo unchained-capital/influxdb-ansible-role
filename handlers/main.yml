@@ -1,0 +1,7 @@
+---
+
+- name: restart influxdb
+  service: name=influxdb state=restarted
+
+- name: restart logstash
+  service: name=logstash state=restarted

@@ -1,0 +1,13 @@
+---
+# InfluxDB Ansible Meta
+galaxy_info:
+  author: "Dhruv Bansal"
+  license: MIT
+  min_ansible_version: 1.7
+  platforms:
+   - name: Ubuntu
+     versions:
+      - trusty
+  categories:
+   - database:nosql
+dependencies: []

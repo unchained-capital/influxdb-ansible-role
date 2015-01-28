@@ -1,0 +1,10 @@
+input {
+  file {
+    path => "{{ influxdb_log_dir }}/*.log"
+    type => "influxdb"
+  }
+  file {
+    path => "/opt/influxdb/shared/log.txt"
+    type => "influxdb"
+  }
+}
