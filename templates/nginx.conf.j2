@@ -1,0 +1,35 @@
+upstream influxdb_admin {
+  server localhost:{{ influxdb_admin_port }};
+}
+
+upstream influxdb_api {
+  server localhost:{{ influxdb_api_port }};
+}
+
+server {
+    listen      443 ssl;
+    server_name {{ influxdb_fqdn }};
+
+    access_log  {{ influxdb_nginx_log_dir }}/nginx.access.log;
+    error_log   {{ influxdb_nginx_log_dir }}/nginx.error.log;
+
+    location = / {
+        proxy_pass http://influxdb_admin;
+	include {{ influxdb_proxy_params }};
+    }
+
+    location / {
+    	proxy_pass http://influxdb_api;
+	include {{ influxdb_proxy_params }};
+    }
+
+    location ~* \.(gif|jpg|jpeg|js|png|css|ttf|woff)$ {
+    	proxy_pass http://influxdb_admin;	
+        include {{ influxdb_proxy_params }};
+    }
+
+    location /interfaces {
+	proxy_pass http://influxdb_admin;
+	include {{ influxdb_proxy_params }};
+    }
+}

@@ -3,8 +3,10 @@ input {
     path => "{{ influxdb_log_dir }}/*.log"
     type => "influxdb"
   }
+{% if influxdb_use_nginx %}  
   file {
-    path => "/opt/influxdb/shared/log.txt"
+    path => "{{ influxdb_nginx_log_dir }}/*.log"
     type => "influxdb"
   }
+{% endif %}
 }

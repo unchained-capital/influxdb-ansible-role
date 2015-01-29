@@ -32,6 +32,17 @@
   tags:
     - influxdb
 
+- include: nginx.yml
+  when: influxdb_use_nginx
+  tags:
+    - influxdb
+    - nginx
+
 - include: logstash.yml
   when: influxdb_use_logstash
+  tags:
+  tags:
+    - influxdb
+    - logstash
+
   

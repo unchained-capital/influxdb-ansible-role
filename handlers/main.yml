@@ -5,3 +5,7 @@
 
 - name: restart logstash
   service: name=logstash state=restarted
+
+- name: restart nginx
+  service: name=nginx state=restarted
+  

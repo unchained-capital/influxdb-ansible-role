@@ -21,7 +21,7 @@ influxdb_group: influxdb
 
 influxdb_log_dir:   /var/log/influxdb
 influxdb_data_dir:  /var/lib/influxdb
-influxdb_conf_dir:  /opt/influxdb/current
+influxdb_conf_dir:  /opt/influxdb/shared
 
 #
 # Global Settings
@@ -81,7 +81,7 @@ influxdb_udp_typesdb: /usr/share/udp/types.db
 # Storage
 #
 
-influxdb_default_engine: "leveldb"
+influxdb_default_engine: "rocksdb"
 
 #
 # Cluster
@@ -93,3 +93,13 @@ influxdb_seeds: ~
 #
 influxdb_use_logstash: true
 logstash_conf_dir: /etc/logstash/conf.d
+
+#
+# Nginx
+#
+influxdb_use_nginx: true
+influxdb_fqdn: influxdb.example.com
+influxdb_nginx_user: www-data
+influxdb_nginx_group: www-data
+influxdb_nginx_log_dir: /var/log/influxdb-api
+influxdb_proxy_params: /etc/nginx/proxy_params
