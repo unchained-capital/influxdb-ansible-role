@@ -1,9 +1,6 @@
+{% if influxdb_admin_enabled == "true" %}
 upstream influxdb_admin {
   server {% if influxdb_admin_address | match("^:") %}localhost{{ influxdb_admin_address }}{% else %}unix:{{ influxdb_admin_address }}{% endif %};
-}
-
-upstream influxdb_api {
-  server {% if influxdb_http_address | match("^:") %}localhost{{ influxdb_http_address }}{% else %}unix:{{ influxdb_http_address }}{% endif %};
 }
 
 server {
@@ -20,6 +17,12 @@ server {
 	include {{ influxdb_proxy_params }};
     }
 }
+{% endif %}
+
+{% if influxdb_http_enabled == "true" %}
+upstream influxdb_api {
+  server {% if influxdb_http_address | match("^:") %}localhost{{ influxdb_http_address }}{% else %}unix:{{ influxdb_http_address }}{% endif %};
+}
 
 server {
     listen      443 ssl;
@@ -35,3 +38,4 @@ server {
 	include {{ influxdb_proxy_params }};
     }
 }
+{% endif %}
