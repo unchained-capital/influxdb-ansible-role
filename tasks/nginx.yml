@@ -9,4 +9,4 @@
     - restart nginx
 
 - name: Enable nginx configuration
-  file: state=link path=/etc/nginx/sites-enabled/influxdb.conf src=/etc/nginx/sites-available/influxdb.conf
+  file: state=link path=/etc/nginx/sites-enabled/influxdb.conf src=/etc/nginx/sites-available/influxdb.conf owner=root group=root mode=0644
