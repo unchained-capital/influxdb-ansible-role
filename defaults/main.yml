@@ -5,8 +5,9 @@
 #
 
 influxdb_download_dir:     /usr/local/src
-influxdb_release_basename: influxdb_latest_amd64.deb
-influxdb_release_url:      "http://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb"
+influxdb_version:           0.9.6.1
+influxdb_release_basename: "influxdb_{{influxdb_version}}_amd64.deb"
+influxdb_release_url:      "https://s3.amazonaws.com/influxdb/{{influxdb_release_basename}}"
 
 #
 # User & Group
@@ -21,85 +22,105 @@ influxdb_group: influxdb
 
 influxdb_log_dir:   /var/log/influxdb
 influxdb_data_dir:  /var/lib/influxdb
-influxdb_conf_dir:  /opt/influxdb/shared
+influxdb_conf_dir:  /etc/influxdb
 
 #
 # Global Settings
 #
 
-influxdb_reporting_disabled: false
-influxdb_debug: false
+influxdb_hostname: ~
+influxdb_reporting_disabled: "false"
+influxdb_debug: "false"
 influxdb_log_level: "info"
 
 #
-# Ports & Addresses
+# Enterprise Registration
 #
-
-influxdb_bind_address: "0.0.0.0"
-influxdb_admin_port:    8083
-influxdb_ssl_port:      8084
-influxdb_api_port:      8086
-influxdb_raft_port:     8090
-influxdb_protobuf_port: 8099
+influxdb_enterprise_registration_enabled: "false"
 
 #
-# SSL
+# Meta
 #
-influxdb_ssl_cert: ~ # set to use
+influxdb_meta: "true"
+influxdb_meta_address: ":8088"
+influxdb_retention_autocreate: "true"
 
 #
-# Graphite
+# Data
 #
-
-influxdb_plugin_graphite: false # set to true to use it and settings below
-influxdb_graphite_address: ~ # will be set to bind address
-influxdb_graphite_port: 2003
-influxdb_graphite_database: graphite
-influxdb_graphite_udp_enabled: true
-
+# Way a lot of options here...none of which I have bothered to wrap :(
 #
-# Collectd
-#
+influxdb_data: "true"
 
-influxdb_plugin_collectd: false # set to true to use it and settings below
-influxdb_collectd_address: ~ # will be set to bind address
-influxdb_collectd_port: 25826
-influxdb_collectd_database: collectd
-influxdb_collectd_typesdb: /usr/share/collectd/types.db
+influxdb_wal_max_size: 104857600
+influxdb_wal_flush_interval: "10m"
+influxdb_wal_partition_flush_delay: "2s"
+
 
 #
-# UDP
+# Hinted-Handoff
 #
-
-influxdb_plugin_udp: false # set to true to use it and settings below
-influxdb_udp_address: ~ # will be set to bind address
-influxdb_udp_port: 4444
-influxdb_udp_database: udp
-influxdb_udp_typesdb: /usr/share/udp/types.db
-
-#
-# Storage
-#
-
-influxdb_default_engine: "rocksdb"
+influxdb_hh_enabled: "true"
 
 #
 # Cluster
 #
-influxdb_seeds: ~
+
+#
+# Retention
+#
+influxdb_retention: "true"
+
+#
+# Shard Precreation
+#
+influxdb_shard_precreation: "true"
+
+#
+# Monitor
+#
+influxdb_monitor_store_enabled: "true"
+influxdb_monitor_store_database: "_internal"
+
+#
+# Admin
+#
+influxdb_admin_enabled: "true"
+influxdb_admin_address: ":8083"
+influxdb_admin_https: "false"
+influxdb_https_certificate: "/etc/ssl/influxdb.pem"
+
+#
+# HTTP
+#
+influxdb_http_enabled: "true"
+influxdb_http_address: ":8086"
+influxdb_http_auth_enabled: "true"
+influxdb_https_enabled: "false"
+influxdb_pprof_enabled: "false"
+
+#
+# Continuous Queries
+#
+influxdb_continuous_queries: "true"
+influxdb_continuous_queries_run_interval: "1s"
 
 #
 # Logstash
 #
-influxdb_use_logstash: true
+influxdb_use_logstash: "true"
 logstash_conf_dir: /etc/logstash/conf.d
 
 #
 # Nginx
 #
-influxdb_use_nginx: true
-influxdb_fqdn: influxdb.example.com
+influxdb_use_nginx: "true"
 influxdb_nginx_user: www-data
 influxdb_nginx_group: www-data
-influxdb_nginx_log_dir: /var/log/influxdb-api
+
+influxdb_admin_fqdn: influxdb-admin.example.com
+influxdb_api_fqdn: influxdb.example.com
+influxdb_nginx_log_dir: /var/log/influxdb/nginx
+influxdb_ssl_params: /etc/nginx/ssl.conf
+influxdb_firewall_params: /etc/nginx/firewall.conf
 influxdb_proxy_params: /etc/nginx/proxy_params

@@ -1,35 +1,37 @@
 upstream influxdb_admin {
-  server localhost:{{ influxdb_admin_port }};
+  server {% if influxdb_admin_address | match("^:") %}localhost{{ influxdb_admin_address }}{% else %}unix:{{ influxdb_admin_address }}{% endif %};
 }
 
 upstream influxdb_api {
-  server localhost:{{ influxdb_api_port }};
+  server {% if influxdb_http_address | match("^:") %}localhost{{ influxdb_http_address }}{% else %}unix:{{ influxdb_http_address }}{% endif %};
 }
 
 server {
     listen      443 ssl;
-    server_name {{ influxdb_fqdn }};
+    include     {{ influxdb_ssl_params }};
+    server_name {{ influxdb_admin_fqdn }};
 
-    access_log  {{ influxdb_nginx_log_dir }}/nginx.access.log;
-    error_log   {{ influxdb_nginx_log_dir }}/nginx.error.log;
+    access_log  {{ influxdb_nginx_log_dir }}/influxdb-admin.nginx.access.log;
+    error_log   {{ influxdb_nginx_log_dir }}/influxdb-admin.nginx.error.log;
 
-    location = / {
-        proxy_pass http://influxdb_admin;
+    location / {
+    	proxy_pass http://influxdb_admin;
+	include {{ influxdb_firewall_params }};
 	include {{ influxdb_proxy_params }};
     }
+}
+
+server {
+    listen      443 ssl;
+    include     {{ influxdb_ssl_params }};
+    server_name {{ influxdb_api_fqdn }};
+
+    access_log  {{ influxdb_nginx_log_dir }}/influxdb-api.nginx.access.log;
+    error_log   {{ influxdb_nginx_log_dir }}/influxdb-api.nginx.error.log;
 
     location / {
     	proxy_pass http://influxdb_api;
-	include {{ influxdb_proxy_params }};
-    }
-
-    location ~* \.(gif|jpg|jpeg|js|png|css|ttf|woff)$ {
-    	proxy_pass http://influxdb_admin;	
-        include {{ influxdb_proxy_params }};
-    }
-
-    location /interfaces {
-	proxy_pass http://influxdb_admin;
+	include {{ influxdb_firewall_params }};
 	include {{ influxdb_proxy_params }};
     }
 }

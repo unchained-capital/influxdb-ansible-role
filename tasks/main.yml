@@ -26,7 +26,7 @@
     - influxdb
 
 - name: Update configuration file
-  template: src=influxdb.toml.j2 dest={{ influxdb_conf_dir }}/config.toml owner=root group=root mode=0644
+  template: src=influxdb.conf.j2 dest={{ influxdb_conf_dir }}/influxdb.conf owner=root group=root mode=0644
   notify:
     - restart influxdb
   tags:
