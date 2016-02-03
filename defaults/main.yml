@@ -95,7 +95,7 @@ influxdb_https_certificate: "/etc/ssl/influxdb.pem"
 #
 influxdb_http_enabled: "true"
 influxdb_http_address: ":8086"
-influxdb_http_auth_enabled: "true"
+influxdb_http_auth_enabled: "false"
 influxdb_https_enabled: "false"
 influxdb_pprof_enabled: "false"
 
