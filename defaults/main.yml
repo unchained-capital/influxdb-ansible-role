@@ -106,12 +106,6 @@ influxdb_continuous_queries: "true"
 influxdb_continuous_queries_run_interval: "1s"
 
 #
-# Logstash
-#
-influxdb_use_logstash: "true"
-logstash_conf_dir: /etc/logstash/conf.d
-
-#
 # Nginx
 #
 influxdb_use_nginx: "true"
