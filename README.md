@@ -12,7 +12,6 @@ Installs InfluxDB from the .deb which provides influxdb command.
 Creates the files:
 
 * `/opt/influxdb/current/config.toml` -- configuration file for InfluxDB
-* `/etc/logstash/conf.d/influxdb.conf` -- input file for logstash
 * `/var/log/influxdb` -- log directory (FIXME: though it doesn't seem to want to log there?)
 
 ## Services
@@ -28,9 +27,6 @@ Use the role in a playbook like this:
   roles:
     - influxdb
 ```
-
-Set the `influxdb_use_logstash` to `false` to skip the logstash
-configuration.
 
 ## Variables
 
