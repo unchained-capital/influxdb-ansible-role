@@ -31,9 +31,3 @@
     - restart influxdb
   tags:
     - influxdb
-
-- include: nginx.yml
-  when: influxdb_use_nginx
-  tags:
-    - influxdb
-    - nginx

@@ -104,17 +104,3 @@ influxdb_pprof_enabled: "false"
 #
 influxdb_continuous_queries: "true"
 influxdb_continuous_queries_run_interval: "1s"
-
-#
-# Nginx
-#
-influxdb_use_nginx: "true"
-influxdb_nginx_user: www-data
-influxdb_nginx_group: www-data
-
-influxdb_admin_fqdn: influxdb-admin.example.com
-influxdb_api_fqdn: influxdb.example.com
-influxdb_nginx_log_dir: /var/log/influxdb/nginx
-influxdb_ssl_params: /etc/nginx/ssl.conf
-influxdb_firewall_params: /etc/nginx/firewall.conf
-influxdb_proxy_params: /etc/nginx/proxy_params
