@@ -1,5 +1,5 @@
 ---
-# InfluxDB Ansible Meta
+
 galaxy_info:
   author: "Dhruv Bansal"
   license: MIT
@@ -9,5 +9,6 @@ galaxy_info:
      versions:
       - trusty
   categories:
-   - database:nosql
+   - database
+   - time_series
 dependencies: []
