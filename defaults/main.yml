@@ -5,9 +5,9 @@
 #
 
 influxdb_download_dir:     /usr/local/src
-influxdb_version:           0.9.6.1
+influxdb_version:           0.13.0 # latest as of 2016-07-04
 influxdb_release_basename: "influxdb_{{influxdb_version}}_amd64.deb"
-influxdb_release_url:      "https://s3.amazonaws.com/influxdb/{{influxdb_release_basename}}"
+influxdb_release_url:      "https://dl.influxdata.com/influxdb/releases/{{influxdb_release_basename}}"
 
 #
 # User & Group

@@ -5,13 +5,22 @@
   tags:
     - influxdb
 
+# We get errors on some Python versions because of SNI used at
+# https://dl.influxdata.com.  So instead of using get_url we'll just
+# shell out to curl.
 - name: Download release
-  get_url: url="{{ influxdb_release_url }}" dest="{{ influxdb_download_dir }}/{{ influxdb_release_basename }}"
+  # get_url: url="{{ influxdb_release_url }}" dest="{{ influxdb_download_dir }}/{{ influxdb_release_basename }}"
+  command: "curl {{ influxdb_release_url }} -o {{influxdb_release_basename}}"
+  args:
+    chdir: "{{influxdb_download_dir}}"
+    creates: "{{influxdb_download_dir}}/{{influxdb_release_basename}}"
+  register: influxdb_download
   tags:
     - influxdb
 
 - name: Install release
   apt: deb="{{ influxdb_download_dir }}/{{ influxdb_release_basename }}" state=installed
+  when: influxdb_download.changed
   tags:
     - influxdb
 
