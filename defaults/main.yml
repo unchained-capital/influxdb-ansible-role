@@ -5,7 +5,7 @@
 #
 
 influxdb_download_dir:     /usr/local/src
-influxdb_version:           0.13.0 # latest as of 2016-07-04
+influxdb_version:           1.1.1 # as of 2016-12-21
 influxdb_release_basename: "influxdb_{{influxdb_version}}_amd64.deb"
 influxdb_release_url:      "https://dl.influxdata.com/influxdb/releases/{{influxdb_release_basename}}"
 
@@ -17,90 +17,131 @@ influxdb_user:  influxdb
 influxdb_group: influxdb
 
 #
+# Service
+#
+influxdb_state:   running
+influxdb_enabled: yes
+
+#
 # Directories
 #
 
 influxdb_log_dir:   /var/log/influxdb
 influxdb_data_dir:  /var/lib/influxdb
 influxdb_conf_dir:  /etc/influxdb
+influxdb_home_dir:  /var/run/influxdb
 
 #
-# Global Settings
+# == Configuration File Settings ==
+#
+# The following variables are organized by the header they (first)
+# appear under in the configuration file.
 #
 
 influxdb_hostname: ~
-influxdb_reporting_disabled: "false"
-influxdb_debug: "false"
-influxdb_log_level: "info"
-
-#
-# Enterprise Registration
-#
-influxdb_enterprise_registration_enabled: "false"
+influxdb_reporting_disabled: false
 
 #
 # Meta
 #
-influxdb_meta: "true"
-influxdb_meta_address: ":8088"
-influxdb_retention_autocreate: "true"
+influxdb_retention_autocreate: true
+influxdb_meta_log: true
 
 #
 # Data
 #
-# Way a lot of options here...none of which I have bothered to wrap :(
-#
-influxdb_data: "true"
-
-influxdb_wal_max_size: 104857600
-influxdb_wal_flush_interval: "10m"
-influxdb_wal_partition_flush_delay: "2s"
+influxdb_query_log: true
+influxdb_trace_log: false
 
 
 #
-# Hinted-Handoff
+# Coordinator
 #
-influxdb_hh_enabled: "true"
-
-#
-# Cluster
-#
+influxdb_slow_query_threshold: 0s
 
 #
 # Retention
 #
-influxdb_retention: "true"
+influxdb_retention: true
+influxdb_retention_interval: 30m
+
 
 #
 # Shard Precreation
 #
-influxdb_shard_precreation: "true"
+influxdb_shard_precreation: true
+influxdb_shard_precreation_interval: 10m
 
 #
 # Monitor
 #
-influxdb_monitor_store_enabled: "true"
+influxdb_monitor_store: true
 influxdb_monitor_store_database: "_internal"
+influxdb_https_certificate: "/etc/ssl/certs/influxdb.crt"
 
 #
 # Admin
 #
-influxdb_admin_enabled: "true"
+influxdb_admin: true
 influxdb_admin_address: ":8083"
-influxdb_admin_https: "false"
-influxdb_https_certificate: "/etc/ssl/influxdb.pem"
+influxdb_admin_https: false
 
 #
 # HTTP
 #
-influxdb_http_enabled: "true"
+influxdb_http: true
 influxdb_http_address: ":8086"
-influxdb_http_auth_enabled: "false"
-influxdb_https_enabled: "false"
-influxdb_pprof_enabled: "false"
+influxdb_http_auth: false
+influxdb_http_auth_realm: "InfluxDB"
+influxdb_http_log: true
+influxdb_https: false
+influxdb_pprof: false
+influxdb_unix_socket: ~ # e.g. - /var/run/influxdb.sock
+influxdb_https_private_key: "/etc/ssl/private/influxdb.pem"
+influxdb_jwt_shared_secret: ""
+
+#
+# Subscriber
+#
+influxdb_subscriber: true
+
+#
+# Graphite
+#
+influxdb_graphite: false
+influxdb_graphite_database: graphite
+influxdb_graphite_address: ":2003"
+influxdb_graphite_rp:      default
+
+#
+# Collectd
+#
+influxdb_collectd: false
+influxdb_collectd_address: ":25826"
+influxdb_collectd_database: collectd
+influxdb_collectd_rp:       default
+
+#
+# OpenTSDB
+#
+influxdb_opentsdb: false
+influxdb_opentsdb_address: ":4242"
+influxdb_opentsdb_database: opentsdb
+influxdb_opentsdb_rp:       default
+influxdb_opentsdb_log:      true
+
+#
+# UDP
+#
+influxdb_udp: false
+influxdb_udp_address: ":8089"
+influxdb_udp_database: udp
+influxdb_udp_rp:       default
+
 
 #
 # Continuous Queries
 #
-influxdb_continuous_queries: "true"
-influxdb_continuous_queries_run_interval: "1s"
+influxdb_cq: true
+influxdb_cq_interval: "1s"
+influxdb_cq_log: true
