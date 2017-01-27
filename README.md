@@ -32,3 +32,4 @@ Use the role in a playbook like this:
 
 The following variables are exposed for configuration...
 
+ 
